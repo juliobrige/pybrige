@@ -1,14 +1,12 @@
-from .config import require_vars, MissingEnvVarsError
-from .logging import setup_logging
-from .timing import timer
-from .formatting import print_table
+# dev_helper/__init__.py
 
-__all__ = [
-    "require_vars",
-    "MissingEnvVarsError",
-    "setup_logging",
-    "timer",
-    "print_table",
-]
+# Importa tudo do sub-pacote 'core'
+from .core import *
 
-__version__ = "0.0.1"
+# Importa tudo do sub-pacote 'decorators'
+from .decorators import *
+
+# Importa tudo do sub-pacote 'utils'
+from .utils import *
+
+__version__ = "0.3.0"
