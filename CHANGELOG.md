@@ -1,56 +1,64 @@
 # Changelog
 
 Todas as mudanças notáveis neste projeto serão documentadas aqui.  
-O formato segue as recomendações do [Keep a Changelog](https://keepachangelog.com/).
+O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)  
+e este projeto adere a [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-## [0.3.0] - 2025-09-26
-### Added
-- **Módulo `io_utils`**:
-  - `write_json`: escreve dicionários/listas em JSON com indentação e UTF-8.
-  - `read_json`: leitura de JSON com modo seguro (`safe=True`).
-  - `append_json_line`: suporte a JSON Lines (logs).
-  - `pretty_print_json`: imprime objetos Python em JSON formatado.
+## [0.3.0] - 2025-09-27
 
-- **Módulo `text_utils`**:
-  - `slugify`: agora com suporte a Unicode (`allow_unicode=True`).
-  - `camel_to_snake`: conversor de `CamelCase` → `snake_case`.
-  - `snake_to_camel`: conversor de `snake_case` → `CamelCase` (com suporte opcional a siglas).
-  - `normalize_whitespace`: remove espaços extras.
-  - `remove_html_tags`: sanitiza texto removendo tags HTML.
-  - `extract_emails`: extrai endereços de e-mail de strings.
-  - `extract_urls`: extrai URLs (incluindo paths e queries).
+### 🚀 Novidades
+- **Módulo `text_utils`** adicionado com várias funções utilitárias:
+  - `slugify` com suporte a **Unicode** (`allow_unicode=True`);
+  - Conversores `camel_to_snake` e `snake_to_camel`;
+  - `normalize_whitespace` para limpar espaços extras;
+  - `remove_html_tags` para sanitização de strings;
+  - Extratores `extract_emails` e `extract_urls`.
+- **Módulo `config`** revisado e expandido:
+  - Suporte a **esquema tipado** com `EnvSpec` e `VarSpec`;
+  - Integração opcional com `.env` via `python-dotenv`;
+  - Suporte a `parser` customizado e `validator` por variável;
+  - Mensagens de erro claras e estruturadas via `MissingEnvVarsError`;
+  - Suporte a prefixos (`prefix="APP_"`) para ambientes complexos.
 
-### Changed
-- Regexes refinadas para maior confiabilidade em `extract_emails` e `extract_urls`.
-
----
-
-## [0.2.0] - 2025-09-25
-### Added
-- **Módulo `robustness`**:
-  - `retry`: decorator para repetir execução de funções em caso de erro.
-  - Novos parâmetros:
-    - `exceptions`: definir quais exceções disparam retries.
-    - `sleep_func`: função de sleep injetável (útil em testes).
-    - `log_success`: loga sucesso após retries.
+### ✅ Melhorias na qualidade do projeto
+- Testes unitários expandidos para `config`:
+  - Verificação de variáveis obrigatórias ausentes;
+  - Defaults aplicados corretamente;
+  - Falha de **casting** (`int("not-a-number")`) devidamente sinalizada;
+  - Validação customizada falhando;
+  - Prefixos de variáveis.
+- Cobertura de testes ampliada → **maior robustez e confiança**.
 
 ---
 
-## [0.1.1] - 2025-09-24
-### Added
-- Logging colorido (`setup_logging`).
-- `timer`: agora com suporte a timestamp e template customizado.
+## [0.2.0] - 2025-09-26
 
-### Fixed
-- Cobertura de testes completa para `logging` e `timing`.
+### 🚀 Novidades
+- **Decorator `@retry`** para reexecução automática de funções em caso de exceções.
+  - Suporte a `tries`, `delay`, `backoff` exponencial;
+  - Permite especificar exceções capturadas (`exceptions=(Exception,)`);
+  - Possibilidade de injetar `sleep_func` para testes (sem atrasos reais);
+  - Logging de falhas e sucessos.
 
 ---
 
-## [0.1.0] - 2025-09-23
-### Added
-- Versão inicial:
-  - `require_vars` para validação de variáveis de ambiente.
-  - `print_table` para exibição de tabelas.
-  - Estrutura de testes e publicação no TestPyPI.
+## [0.1.1] - 2025-09-25
+
+### 🚀 Novidades
+- **Logger colorido** com `setup_logging(colors=True)`;
+- **Timer** com suporte a timestamp e template customizado.
+
+### ✅ Qualidade
+- Cobertura de testes completa para `logging` e `timer`.
+
+---
+
+## [0.1.0] - 2025-09-24
+
+### 🚀 Versão inicial
+- `setup_logging` para configuração simples de logs.
+- `require_vars` para validação de variáveis de ambiente.
+- `@timer` decorator para medir tempo de execução.
+- `print_table` para renderizar dados em tabela de terminal.
