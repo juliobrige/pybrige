@@ -5,6 +5,14 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e este projeto adere a [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
+## [0.3.1] - 2025-09-27
+### Added
+- Novo sistema de importação por namespaces (`text`, `io`, `robustness`, etc.).
+- Mantida compatibilidade retroativa: `from dev_helper import slugify` ainda funciona.
+
+### Changed
+- `__init__.py` reestruturado para maior clareza e flexibilidade.
+
 
 ## [0.3.0] - 2025-09-27
 
