@@ -1,57 +1,46 @@
 # PyDevHelper
 
-[![PyPI version](https://img.shields.io/pypi/v/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)
-[![Python versions](https://img.shields.io/pypi/pyversions/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)
+[![PyPI version](https://img.shields.io/pypi/v/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)  
+[![Python versions](https://img.shields.io/pypi/pyversions/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)  
 [![License](https://img.shields.io/pypi/l/pydevhelper.svg)](https://github.com/juliobrige/DevHelper/blob/main/LICENSE)
 
 ---
 
-Uma coleção de **utilitários para desenvolvedores Python** — logging elegante, medição de tempo, retry automático, manipulação de JSON, tratamento de strings e muito mais.
-
+Uma coleção de **utilitários para desenvolvedores Python** — logging elegante, medição de tempo, retry automático, manipulação de JSON, tratamento de strings e muito mais.  
 A collection of **developer utilities for Python** — elegant logging, timing, retry decorator, JSON helpers, string utilities and more.
 
-
-Um toolkit de produtividade para desenvolvedores Python, desenhado para acelerar tarefas comuns do dia a dia com ferramentas robustas e fáceis de usar.
-
-Chega de copiar e colar o mesmo código de utilidade em todos os seus projetos! `pydevhelper` oferece soluções prontas e testadas para configuração, logging, debugging e manipulação de dados.
 ---
 
+## ✨ Visão Geral
 
-## Funcionalidades Principais
+O **PyDevHelper** é um toolkit de produtividade para desenvolvedores Python, projetado para acelerar tarefas comuns do dia a dia com ferramentas robustas e fáceis de usar.  
 
-* **Configuração Segura:** Carregue e valide variáveis de ambiente a partir de um schema, com type casting automático.
-* **Logging Inteligente:** Configure logs coloridos e úteis para o terminal com uma única linha de código.
-* **Decorators Poderosos:** Adicione resiliência (`@retry`) e análise de performance (`@timer`) às suas funções sem esforço.
-* **Utilidades de Dados:** Um conjunto rico de funções para limpar texto (`slugify`, `camel_to_snake`), manipular JSON (`read_json`, `write_json`) e apresentar dados em tabelas (`print_table`) com estilo.
+Chega de copiar e colar o mesmo código de utilidade em todos os seus projetos!  
+Com `pydevhelper` você obtém soluções prontas e testadas para configuração, logging, debugging e manipulação de dados.
 
+---
 
-## 🚀 Instalação | Installation
+## 🚀 Instalação
 
 ```bash
 pip install pydevhelper
-
-Um **toolkit leve para desenvolvedores Python**, com utilitários práticos que ajudam no dia a dia.  
-A lightweight **developer toolkit for Python**, with practical utilities to make coding easier.
+```
 
 ---
 
+## ⚡ Guia Rápido (Quick Start)
 
------
-
-## Guia Rápido (Quick Start)
-
-Veja como o `pydevhelper` pode simplificar o seu código.
+Veja como o `pydevhelper` pode simplificar seu código:
 
 ```python
 import logging
 import requests
 from dev_helper import setup_logging, load_env, EnvSpec, VarSpec, timer, retry, print_table
 
-# 1. Configure logs coloridos para o terminal
+# 1. Configure logs coloridos
 setup_logging(colors=True)
 
-# 2. Defina e carregue a configuração da sua aplicação de forma segura
-# (Isto irá ler as variáveis de ambiente APP_API_URL e APP_RETRIES)
+# 2. Defina e carregue a configuração da aplicação
 try:
     config = load_env(EnvSpec(
         vars=[
@@ -64,78 +53,54 @@ except Exception as e:
     logging.error(f"Erro de configuração: {e}")
     exit(1)
 
-# 3. Crie uma função robusta e monitorizada com decorators
+# 3. Use decorators para resiliência e análise de performance
 @retry(tries=config["RETRIES"], delay=1, exceptions=(requests.exceptions.RequestException,))
 @timer(template="[PERF] '{func_name}' contactou a API em {elapsed:.2f}s")
-def buscar_dados_de_utilizadores():
-    """Busca dados de uma API externa, com retentativas em caso de falha."""
+def buscar_dados():
     logging.info(f"A contactar a API em {config['API_URL']}...")
     response = requests.get(config["API_URL"])
-    response.raise_for_status() # Levanta um erro se o pedido falhar
+    response.raise_for_status()
     return response.json()
 
-# 4. Execute e apresente os resultados com estilo
+# 4. Execute e apresente resultados
 try:
-    dados = buscar_dados_de_utilizadores()
+    dados = buscar_dados()
     logging.info("Dados recebidos com sucesso!")
-    
-    # 5. Apresente os dados numa tabela bonita
     print_table(dados, title="Relatório de Utilizadores")
-    
 except Exception as e:
-    logging.critical(f"Não foi possível obter os dados após várias tentativas: {e}")
-
+    logging.critical(f"Não foi possível obter os dados: {e}")
 ```
 
+---
 
-## 📌 Roadmap
+## 🔧 Funcionalidades Principais
 
-* [ ] Suporte a YAML (io_utils)
-* [ ] Mais transformações de texto (snake → kebab, title case etc.)
-* [ ] CLI para acessar utilitários diretamente no terminal
+- **Configuração Segura**: Carregue e valide variáveis de ambiente (`load_env`, `EnvSpec`, `VarSpec`).
+- **Logging Inteligente**: Configure logs coloridos e amigáveis ao terminal (`setup_logging`).
+- **Decorators Poderosos**: 
+  - `@retry` → adiciona retentativas automáticas.  
+  - `@timer` → mede o tempo de execução de funções.
+- **Utilidades de Dados**:  
+  - Manipulação de JSON (`read_json`, `write_json`, `append_json_line`, `pretty_print_json`).  
+  - Transformações de texto (`slugify`, `camel_to_snake`, `snake_to_camel`, `normalize_whitespace`).  
+  - Extração (`extract_emails`, `extract_urls`, `remove_html_tags`).  
+  - Impressão de tabelas (`print_table` com `rich`).
 
 ---
 
-## 🇺🇸 Features (English)
+## 📚 Exemplos de Uso
 
-- ✅ Logging setup in one line  
-- ✅ Environment variable checking (`require_vars`)  
-- ✅ Execution time measurement with `@timer`  
-- ✅ Pretty-printing tables in the terminal (`print_table`)  
-
----
-
-
-
-
-## ⚡ Uso rápido | Quick Usage
-from dev_helper import setup_logging, require_vars, timer, print_table
-
-# Setup logging
-setup_logging()
-
-# Ensure required environment variables exist
-require_vars(["PATH"])
-
-# Measure execution time
-@timer
-def main():
-    data = [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]
-    print_table(data)
-
-main()
-
-
-
+### Logging
+```python
 from dev_helper import setup_logging
+import logging
 
 setup_logging(colors=True)
-
-import logging
 logging.info("Mensagem colorida!")
+```
 
-
-
+### Timer
+```python
 from dev_helper import timer, setup_logging
 
 setup_logging(colors=True)
@@ -145,9 +110,10 @@ def process_data():
     return sum(range(100000))
 
 process_data()
+```
 
-
-
+### Retry
+```python
 from dev_helper import retry
 import random
 
@@ -158,55 +124,57 @@ def unstable():
     return "Sucesso!"
 
 print(unstable())
+```
 
-
-
+### JSON Helpers
+```python
 from dev_helper import write_json, read_json
 
 data = {"id": 1, "name": "Alice"}
 write_json("data.json", data)
 
 print(read_json("data.json"))
+```
 
-
-
+### String Utils
+```python
 from dev_helper import slugify, camel_to_snake, snake_to_camel, extract_emails, extract_urls
 
-print(slugify("Título de Exemplo com Áccentos"))  # titulo-de-exemplo-com-accents
-print(slugify("日本語 テキスト", allow_unicode=True))  # 日本語-テキスト
-print(camel_to_snake("CamelCaseTest"))  # camel_case_test
-print(snake_to_camel("snake_case_test"))  # SnakeCaseTest
-print(extract_emails("contato: dev@helper.org"))  # ['dev@helper.org']
-print(extract_urls("Veja https://example.com"))   # ['https://example.com']
+print(slugify("Título de Exemplo com Áccentos"))  
+print(camel_to_snake("CamelCaseTest"))  
+print(snake_to_camel("snake_case_test"))  
+print(extract_emails("contato: dev@helper.org"))  
+print(extract_urls("Veja https://example.com"))  
+```
 
+---
 
+## 📌 Roadmap
 
------
+- [ ] Suporte a YAML (`io_utils`)  
+- [ ] Novas transformações de texto (snake → kebab, title case etc.)  
+- [ ] CLI para acessar utilitários diretamente no terminal  
 
-## Referência da API (v0.2.0)
+---
+
+## 📖 Referência da API (v0.2.0)
 
 ### Core
-
-  * `load_env(spec: EnvSpec)`: Valida e carrega variáveis de ambiente.
-  * `require_vars(vars: list[str])`: Garante que variáveis existem (versão legada).
-  * `setup_logging(level, colors, file, logger_name)`: Configura o logging.
+- `load_env(spec: EnvSpec)` → valida e carrega variáveis de ambiente.  
+- `require_vars(vars: list[str])` → garante que variáveis existem (versão legada).  
+- `setup_logging(level, colors, file, logger_name)` → configura logging.  
 
 ### Decorators
-
-  * `@timer(level, template, logger)`: Mede e loga o tempo de execução de uma função.
-  * `@retry(tries, delay, backoff, exceptions, ...)`: Tenta executar uma função novamente em caso de falha.
+- `@timer(level, template, logger)` → mede e loga tempo de execução.  
+- `@retry(tries, delay, backoff, exceptions, ...)` → retentativas automáticas em caso de falha.  
 
 ### Utils
-
-  * `print_table(data, title)`: Imprime uma lista de dicionários como uma tabela estilizada (usando `rich`).
-  * `slugify(text, allow_unicode)`: Converte texto num slug para URL.
-  * `camel_to_snake(text)` e `snake_to_camel(text)`: Converte entre estilos de nomenclatura.
-  * `normalize_whitespace(text)`: Limpa espaços extra.
-  * `remove_html_tags(text)`: Remove tags HTML.
-  * `extract_emails(text)` e `extract_urls(text)`: Extrai emails e URLs de um texto.
-  * `read_json(path, safe)` e `write_json(path, data)`: Helpers para ficheiros JSON.
-  * `append_json_line(path, record)`: Escreve no formato JSON Lines.
-  * `pretty_print_json(data)`: Retorna uma string JSON formatada.
-
------
-
+- `print_table(data, title)` → imprime tabelas com estilo (`rich`).  
+- `slugify(text, allow_unicode)` → texto → slug.  
+- `camel_to_snake(text)` / `snake_to_camel(text)` → conversões de nomenclatura.  
+- `normalize_whitespace(text)` → remove espaços extras.  
+- `remove_html_tags(text)` → remove tags HTML.  
+- `extract_emails(text)` / `extract_urls(text)` → extrações de emails e URLs.  
+- `read_json(path, safe)` / `write_json(path, data)` → helpers JSON.  
+- `append_json_line(path, record)` → escreve no formato JSON Lines.  
+- `pretty_print_json(data)` → retorna JSON formatado.  
