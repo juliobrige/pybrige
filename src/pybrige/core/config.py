@@ -1,10 +1,9 @@
-
+from __future__ import annotations
 import os
 import logging
 from dataclasses import dataclass, field
 from typing import Any, Callable, Iterable, Mapping, Sequence, TypeVar, Literal, Optional
 import json
-from __future__ import annotations
 from pathlib import Path
 
 def load_config(path: str, safe: bool = False, default: Optional[dict[str, Any]] = None) -> dict[str, Any]:
