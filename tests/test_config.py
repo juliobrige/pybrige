@@ -9,7 +9,7 @@ from pybrige .core.config import (
     MissingEnvVarsError,
 )
 
-
+from typing import List
 # -------------------------------------------------------------------
 # Testes para require_vars (checagem simples de variáveis de ambiente)
 # -------------------------------------------------------------------
@@ -80,12 +80,14 @@ def test_load_env_invalid_type(monkeypatch):
 def test_load_env_custom_parser(monkeypatch):
     monkeypatch.setenv("CSV_VALUES", "1;2;3")
 
-    def parse_csv(value: str) -> list[int]:
+    from typing import List
+    def parse_csv(value: str) -> List[int]:
         return [int(x) for x in value.split(";")]
 
     spec = EnvSpec([VarSpec("CSV_VALUES", parser=parse_csv)])
     config = load_env(spec)
     assert config["CSV_VALUES"] == [1, 2, 3]
+
 
 
 def test_load_env_validator_failure(monkeypatch):
