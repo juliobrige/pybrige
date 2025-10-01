@@ -9,6 +9,8 @@ import shutil
 import tempfile
 from pathlib import Path
 from typing import Any, Callable, Iterator, List, Optional, Sequence, Union, Dict
+from typing import List
+
 
 DEFAULT_ENCODING = "utf-8"
 JsonObj = Union[dict, list]
@@ -17,6 +19,10 @@ JsonObj = Union[dict, list]
 # -------------------------
 # Helpers de path / io
 # -------------------------
+
+def parse_csv(value: str) -> List[int]:
+    """Converte uma string separada por ';' em uma lista de inteiros."""
+    return [int(x.strip()) for x in value.split(";") if x.strip()]
 
 
 def write_json_gz(file_path: str, data: Union[dict, list], indent: int = 4) -> None:

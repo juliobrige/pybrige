@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pybrige"
-version = "0.5.0" #  versão atual
+version = "0.5.1" #  versão atual
 description = "Um toolkit de produtividade para desenvolvedores em Python"
 readme = { file = "README.md", content-type = "text/markdown" }
 authors = [

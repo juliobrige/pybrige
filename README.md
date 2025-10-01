@@ -167,6 +167,23 @@ print(matrix_rain_preview(lines=5, width=20))
 
 ## 📖 Referência da API (v0.2.0)
 
+### `validate_bi`
+Verifica o formato de um Bilhete de Identidade de Moçambique de 13 caracteres.
+
+```python
+from pybrige import validate_bi
+
+# Casos válidos
+print(validate_bi("123456789012A"))
+# Saída: True
+
+print(validate_bi(" 123456-789012-B ")) # Lida com espaços e hífens
+# Saída: True
+
+# Caso inválido
+print(validate_bi("documento_invalido"))
+# Saída: False
+
 ### Core
 - `load_env(spec: EnvSpec)` → valida e carrega variáveis de ambiente.  
 - `require_vars(vars: list[str])` → garante que variáveis existem (versão legada).  
@@ -186,7 +203,8 @@ print(matrix_rain_preview(lines=5, width=20))
 - `read_json(path, safe)` / `write_json(path, data)` → helpers JSON.  
 - `append_json_line(path, record)` → escreve no formato JSON Lines.  
 - `pretty_print_json(data)` → retorna JSON formatado.  
-
+### `utils.text`
+* `slugify`, `camel_to_snake`, `snake_to_camel`, `normalize_whitespace`, `remove_html_tags`, `extract_emails`, `extract_urls`, **`validate_bi`**.
 
 
 

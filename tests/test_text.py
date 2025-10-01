@@ -7,7 +7,13 @@ from pybrige.utils.text import (
     remove_html_tags,
     extract_emails,
     extract_urls,
+    validate_bi, # A correção
+
 )
+from pybrige import validate_json
+
+
+
 
 @pytest.mark.parametrize("inp, out", [
     ("Olá Mundo!", "ola-mundo"),
@@ -64,3 +70,21 @@ def test_extract_emails():
 def test_extract_urls_handles_trailing_punctuation(inp, out):
     """Verifica se a pontuação final é removida das URLs."""
     assert sorted(extract_urls(inp)) == sorted(out)
+
+@pytest.mark.parametrize("bi, expected", [
+    # Casos Válidos
+    ("123456789012A", True),
+    (" 123456789012 B ", True), # Com espaços
+    ("123456-789012-C", True), # Com hífens
+
+    # Casos Inválidos
+    ("123456789012", False),      # Curto demais
+    ("123456789012AB", False),    # Longo demais
+    ("ABCDEFGHIJKLM", False),     # Letras no lugar de números
+    ("1234567890123", False),      # Número no lugar da letra
+    ("", False),                  # Vazio
+    (1234567890123, False),      # Não é string
+])
+def test_validate_bi(bi, expected):
+    """Testa a validação de BI de Moçambique com vários formatos."""
+    assert validate_bi(bi) == expected    

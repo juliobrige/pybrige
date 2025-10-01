@@ -13,7 +13,7 @@ from pybrige.utils.io import (
     stream_jsonl,
     count_file_lines,
 )
-
+from pybrige import parse_csv
 # --- Testes para Gzip ---
 @pytest.mark.parametrize("filename", ["test.json", "test.json.gz"])
 def test_gzip_integration_for_json_and_jsonl(tmp_path, filename):
@@ -273,3 +273,10 @@ def test_backup_file(tmp_path):
     backup_file(f, keep=3)
     # Agora existe .bak.1
     assert any("bak.1" in x.name for x in tmp_path.iterdir())
+
+
+
+def test_parse_csv():
+    assert parse_csv("1;2;3") == [1, 2, 3]
+    assert parse_csv(" 4 ; 5 ; 6 ") == [4, 5, 6]
+    assert parse_csv("") == []

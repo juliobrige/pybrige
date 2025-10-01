@@ -6,6 +6,20 @@ e este projeto adere a [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+
+
+# Changelog
+
+...
+
+## [Unreleased]
+
+## [0.5.1] - 2025-10-01
+
+### Added
+- Adicionada a função `validate_bi` ao módulo `text` para validar o formato de números de Bilhete de Identidade de Moçambique.
+
+
 # Changelog
 
 Todo o histórico de mudanças notáveis neste projeto será documentado neste ficheiro.

@@ -68,3 +68,37 @@ def extract_urls(text: str) -> List[str]:
     """
     urls = re.findall(r"https?://[^\s<>\"']+", text)
     return [u.rstrip(".,!?") for u in urls]
+
+def validate_bi(bi_number: str) -> bool:
+    """
+    Valida o formato de um número de Bilhete de Identidade de Moçambique.
+
+    Verifica se a string:
+    - Tem 13 caracteres (após limpar espaços/hífens).
+    - Os primeiros 12 são dígitos.
+    - O último caractere é uma letra.
+
+    Args:
+        bi_number: O número do BI como uma string.
+
+    Returns:
+        True se o formato for válido, False caso contrário.
+    """
+    if not isinstance(bi_number, str):
+        return False
+
+    # Limpa o input de caracteres comuns de formatação
+    cleaned_bi = bi_number.replace("-", "").replace(" ", "").strip()
+
+    # 1. Verifica o comprimento
+    if len(cleaned_bi) != 13:
+        return False
+
+    # 2. Verifica as partes numéricas e a letra final
+    number_part = cleaned_bi[:12]
+    letter_part = cleaned_bi[12]
+
+    if not number_part.isdigit() or not letter_part.isalpha():
+        return False
+
+    return True
