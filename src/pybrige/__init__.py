@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 
 """
 pybrige - Um toolkit de produtividade para desenvolvedores em Python.

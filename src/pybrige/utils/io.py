@@ -1,5 +1,6 @@
-# src/pybrige/utils/io.py
 from __future__ import annotations
+
+# src/pybrige/utils/io.py
 
 import gzip
 import io
@@ -10,6 +11,7 @@ import tempfile
 from pathlib import Path
 from typing import Any, Callable, Iterator, List, Optional, Sequence, Union, Dict
 from typing import List
+
 
 
 DEFAULT_ENCODING = "utf-8"

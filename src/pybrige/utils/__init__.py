@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 print("DEBUG: A executar o __init__.py de UTILS")
 from .dicts import safe_get
 from .formatting import print_table

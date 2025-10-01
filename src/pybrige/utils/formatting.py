@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 # src/pybrige/utils/formatting.py
 """
 formatting.py — utilities de formatação com estética "Mr. Robot / hacker".
 Sem dependências externas. Saídas pensadas para terminais (ANSI capable).
 """
 
-from __future__ import annotations
 import json
 import shutil
 import textwrap
