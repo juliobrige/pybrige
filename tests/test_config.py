@@ -77,8 +77,8 @@ def test_load_env_invalid_type(monkeypatch):
 def test_load_env_custom_parser(monkeypatch):
     monkeypatch.setenv("CSV_VALUES", "1;2;3")
 
-    def parse_csv(value: str) -> List[int]:
-        return [int(x) for x in value.split(";")]
+def parse_csv(value: str) -> List[int]:
+    return [int(x) for x in value.split(";")]
 
     spec = EnvSpec([VarSpec("CSV_VALUES", parser=parse_csv)])
     config = load_env(spec)

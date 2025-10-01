@@ -3,6 +3,9 @@
 [![PyPI version](https://img.shields.io/pypi/v/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)  
 [![Python versions](https://img.shields.io/pypi/pyversions/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)  
 [![License](https://img.shields.io/pypi/l/pydevhelper.svg)](https://github.com/juliobrige/DevHelper/blob/main/LICENSE)
+![Build](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml/badge.svg)
+[![Coverage Status](https://img.shields.io/badge/coverage-92%25-brightgreen)](https://github.com/juliobrige/pybrige)
+
 
 ---
 
