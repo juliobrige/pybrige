@@ -2,11 +2,15 @@ from __future__ import annotations
 import os
 import logging
 from dataclasses import dataclass, field
-from typing import Any, Callable, Iterable, Mapping, Sequence, TypeVar, Literal, Optional
 import json
 from pathlib import Path
+from typing import Any, Callable, Iterable, Mapping, Sequence, TypeVar, Literal, Optional, Dict, List
 
-def load_config(path: str, safe: bool = False, default: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+
+# ----------------------------
+# Extras compatíveis
+# ----------------------------
+def load_config(path: str, safe: bool = False, default: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """
     Lê configuração de um arquivo JSON.
     Se safe=True retorna {} ou `default` em caso de erro.
@@ -21,13 +25,13 @@ def load_config(path: str, safe: bool = False, default: Optional[dict[str, Any]]
         raise
 
 
-def load_env_vars(required: list[str]) -> dict[str, str]:
+def load_env_vars(required: List[str]) -> Dict[str, str]:
     """
     Versão simplificada: garante apenas que todas as variáveis listadas existem.
     Retorna dict {var: valor}.
     """
-    vals: dict[str, str] = {}
-    missing: list[str] = []
+    vals: Dict[str, str] = {}
+    missing: List[str] = []
     for key in required:
         v = os.getenv(key)
         if v is None or v.strip() == "":
@@ -39,37 +43,17 @@ def load_env_vars(required: list[str]) -> dict[str, str]:
     return vals
 
 
-def merge_config(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+def merge_config(base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
     """
     Faz merge recursivo de configs, dando precedência ao override.
     """
     result = base.copy()
     for k, v in override.items():
         if isinstance(v, dict) and isinstance(result.get(k), dict):
-            result[k] = merge_config(result[k], v)
+            result[k] = merge_config(result[k], v)  # recursão
         else:
             result[k] = v
     return result
-
-
-__all__ = [
-    "EnvSpec",
-    "VarSpec",
-    "load_env",
-    "require_vars",
-    "MissingEnvVarsError",
-    # extras compatíveis
-    "load_config",
-    "load_env_vars",
-    "merge_config",
-]
-
-# Tentativa opcional de carregar .env sem adicionar hard dependency
-try:
-    from dotenv import load_dotenv  # type: ignore
-    _HAS_DOTENV = True
-except Exception:
-    _HAS_DOTENV = False
 
 
 # ----------------------------
@@ -77,19 +61,17 @@ except Exception:
 # ----------------------------
 @dataclass
 class MissingEnvVarsError(Exception):
-    """Raised when one or more required environment variables are missing or invalid."""
-    missing: list[str] = field(default_factory=list)
-    invalid: list[str] = field(default_factory=list)
-    details: dict[str, str] = field(default_factory=dict)
+    missing: List[str] = field(default_factory=list)
+    invalid: List[str] = field(default_factory=list)
+    details: Dict[str, str] = field(default_factory=dict)
 
     def __str__(self) -> str:
-        parts: list[str] = []
+        parts: List[str] = []
         if self.missing:
             parts.append(f"Missing: {sorted(self.missing)}")
         if self.invalid:
             parts.append(f"Invalid: {sorted(self.invalid)}")
         if self.details:
-            # compact detail message
             hints = "; ".join(f"{k}: {v}" for k, v in self.details.items())
             parts.append(f"Hints: {hints}")
         return " | ".join(parts) or "Environment validation failed"
@@ -112,10 +94,12 @@ def _parse_bool(s: str) -> bool:
         return False
     raise ValueError("expected boolean (true/false, 1/0, yes/no, on/off)")
 
+
 def _parse_list(sep: str = ",") -> ParseFn:
-    def _inner(s: str) -> list[str]:
+    def _inner(s: str) -> List[str]:
         return [p.strip() for p in s.split(sep) if p.strip() != ""]
     return _inner
+
 
 # Mapping de parsers padrão
 DEFAULT_CASTERS: Mapping[str, ParseFn] = {
@@ -126,6 +110,7 @@ DEFAULT_CASTERS: Mapping[str, ParseFn] = {
     "list": _parse_list(","),  # string -> lista por vírgula
 }
 
+
 @dataclass(frozen=True)
 class VarSpec:
     name: str
@@ -135,8 +120,8 @@ class VarSpec:
     parser: Optional[ParseFn] = None
     validator: Optional[ValidatorFn] = None
     help: str = ""  # dica para mensagem de erro
-    # para list: separador custom
-    sep: str = ","
+    sep: str = ","  # separador para listas
+
 
 @dataclass
 class EnvSpec:
@@ -152,34 +137,26 @@ class EnvSpec:
 # ----------------------------
 # Core API
 # ----------------------------
-def load_env(spec: EnvSpec) -> dict[str, Any]:
+def load_env(spec: EnvSpec) -> Dict[str, Any]:
     """
     Valida e carrega variáveis de ambiente conforme o schema (EnvSpec).
     Retorna um dict com valores já convertidos (tipados).
     Lança MissingEnvVarsError se algo obrigatório faltar ou for inválido.
-
-    Uso:
-        config = load_env(EnvSpec([
-            VarSpec("DATABASE_URL", type="str"),
-            VarSpec("DEBUG", type="bool", required=False, default=False),
-            VarSpec("PORT", type="int", required=False, default=8000),
-            VarSpec("ALLOWED_HOSTS", type="list", required=False, default=["*"]),
-        ], prefix="APP_"))
     """
     log = spec._get_logger()
 
-    # 1) .env opcional
-    if spec.use_dotenv and _HAS_DOTENV:
+    if spec.use_dotenv:
         try:
-            load_dotenv()  # não falha se não existir
+            from dotenv import load_dotenv  # import local
+            load_dotenv()
             log.debug("Loaded .env (python-dotenv)")
         except Exception as e:
             log.debug(f"Skipping dotenv load: {e}")
 
-    missing: list[str] = []
-    invalid: list[str] = []
-    hints: dict[str, str] = {}
-    result: dict[str, Any] = {}
+    missing: List[str] = []
+    invalid: List[str] = []
+    hints: Dict[str, str] = {}
+    result: Dict[str, Any] = {}
 
     for vs in spec.vars:
         env_name = f"{spec.prefix}{vs.name}" if spec.prefix else vs.name
@@ -191,13 +168,11 @@ def load_env(spec: EnvSpec) -> dict[str, Any]:
                 if vs.help:
                     hints[env_name] = vs.help
                 continue
-            # usa default (pode ser None também se optional)
             value = vs.default
             result[vs.name] = value
             log.debug(f"{env_name} missing → using default={value!r}")
             continue
 
-        # 2) casting
         try:
             if vs.parser is not None:
                 value = vs.parser(raw)
@@ -212,7 +187,6 @@ def load_env(spec: EnvSpec) -> dict[str, Any]:
             hints[env_name] = f"Failed to parse as {vs.type}: {e}"
             continue
 
-        # 3) validação custom
         try:
             if vs.validator is not None:
                 vs.validator(value)
@@ -234,10 +208,6 @@ def load_env(spec: EnvSpec) -> dict[str, Any]:
 # API compatível com versões anteriores
 # ----------------------------
 def require_vars(vars: Iterable[str]) -> None:
-    """
-    Compat: garante que as variáveis listadas existem e não são vazias.
-    Recomendado migrar para EnvSpec + load_env para tipagem/validação.
-    """
     missing = []
     for var in vars:
         v = os.getenv(var)
@@ -246,10 +216,14 @@ def require_vars(vars: Iterable[str]) -> None:
     if missing:
         raise MissingEnvVarsError(missing=missing)
 
+
 __all__ = [
     "EnvSpec",
     "VarSpec",
     "load_env",
     "require_vars",
     "MissingEnvVarsError",
+    "load_config",
+    "load_env_vars",
+    "merge_config",
 ]
