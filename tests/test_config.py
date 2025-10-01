@@ -1,5 +1,6 @@
 import os
 import pytest
+from typing import List
 from pybrige .core.config import (
     EnvSpec,
     VarSpec,
@@ -12,6 +13,8 @@ from pybrige .core.config import (
 # -------------------------------------------------------------------
 # Testes para require_vars (checagem simples de variáveis de ambiente)
 # -------------------------------------------------------------------
+def parse_csv(value: str) -> List[int]:
+    return [int(x) for x in value.split(";")]
 
 def test_require_vars_all_present(monkeypatch):
     monkeypatch.setenv("API_KEY", "123")
