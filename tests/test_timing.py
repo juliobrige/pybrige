@@ -1,7 +1,7 @@
 import logging
 import re
 import pytest
-from dev_helper import timer
+from pybrige import timer
 
 # REMOVEMOS A FIXTURE DAQUI
 
@@ -11,8 +11,6 @@ def test_timer_logs_execution_time(caplog):
     @timer()
     def dummy():
         return 123
-
-    # Usamos caplog.at_level para garantir que os logs de INFO são capturados
     with caplog.at_level(logging.INFO):
         result = dummy()
     

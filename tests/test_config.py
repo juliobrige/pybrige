@@ -1,6 +1,6 @@
 import os
 import pytest
-from dev_helper.core.config import (
+from pybrige .core.config import (
     EnvSpec,
     VarSpec,
     load_env,

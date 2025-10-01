@@ -2,10 +2,7 @@ import logging
 from typing import Optional
 
 class ColoredFormatter(logging.Formatter):
-    """
-    Um formatador de log personalizado que adiciona cores aos níveis de log.
-    """
-    # ... (O código da classe ColoredFormatter continua exatamente igual, sem alterações)
+    
     GREY = "\x1b[38;20m"
     GREEN = "\x1b[32;20m"
     YELLOW = "\x1b[33;20m"
@@ -30,10 +27,6 @@ class ColoredFormatter(logging.Formatter):
         return formatter.format(record)
 
 def setup_logging(level: int = logging.INFO, colors: bool = False) -> None:
-    """
-    Configura o logging raiz para exibir mensagens de forma clara no terminal.
-    Esta função substitui qualquer configuração de logging raiz existente.
-    """
     # Escolhe o formatador a ser usado
     if colors:
         formatter = ColoredFormatter()

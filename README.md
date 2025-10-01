@@ -1,4 +1,4 @@
-# PyDevHelper
+# pybrige
 
 [![PyPI version](https://img.shields.io/pypi/v/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)  
 [![Python versions](https://img.shields.io/pypi/pyversions/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)  
@@ -13,29 +13,29 @@ A collection of **developer utilities for Python** — elegant logging, timing, 
 
 ## ✨ Visão Geral
 
-O **PyDevHelper** é um toolkit de produtividade para desenvolvedores Python, projetado para acelerar tarefas comuns do dia a dia com ferramentas robustas e fáceis de usar.  
+O **pybrige** é um toolkit de produtividade para desenvolvedores Python, projetado para acelerar tarefas comuns do dia a dia com ferramentas robustas e fáceis de usar.  
 
 Chega de copiar e colar o mesmo código de utilidade em todos os seus projetos!  
-Com `pydevhelper` você obtém soluções prontas e testadas para configuração, logging, debugging e manipulação de dados.
+Com `pybrige` você obtém soluções prontas e testadas para configuração, logging, debugging e manipulação de dados.
 
 ---
 
 ## 🚀 Instalação
 
 ```bash
-pip install pydevhelper
+pip install pybrige
 ```
 
 ---
 
 ## ⚡ Guia Rápido (Quick Start)
 
-Veja como o `pydevhelper` pode simplificar seu código:
+Veja como o `pybrige` pode simplificar seu código:
 
 ```python
 import logging
 import requests
-from dev_helper import setup_logging, load_env, EnvSpec, VarSpec, timer, retry, print_table
+from pybrige import setup_logging, load_env, EnvSpec, VarSpec, timer, retry, print_table
 
 # 1. Configure logs coloridos
 setup_logging(colors=True)
@@ -92,7 +92,7 @@ except Exception as e:
 
 ### Logging
 ```python
-from dev_helper import setup_logging
+from pybrige import setup_logging
 import logging
 
 setup_logging(colors=True)
@@ -101,7 +101,7 @@ logging.info("Mensagem colorida!")
 
 ### Timer
 ```python
-from dev_helper import timer, setup_logging
+from pybrige import timer, setup_logging
 
 setup_logging(colors=True)
 
@@ -114,7 +114,7 @@ process_data()
 
 ### Retry
 ```python
-from dev_helper import retry
+from pybrige import retry
 import random
 
 @retry(tries=3, delay=1, backoff=2)
@@ -128,7 +128,7 @@ print(unstable())
 
 ### JSON Helpers
 ```python
-from dev_helper import write_json, read_json
+from pybrige import write_json, read_json
 
 data = {"id": 1, "name": "Alice"}
 write_json("data.json", data)
@@ -138,13 +138,21 @@ print(read_json("data.json"))
 
 ### String Utils
 ```python
-from dev_helper import slugify, camel_to_snake, snake_to_camel, extract_emails, extract_urls
+from pybrige import slugify, camel_to_snake, snake_to_camel, extract_emails, extract_urls
 
 print(slugify("Título de Exemplo com Áccentos"))  
 print(camel_to_snake("CamelCaseTest"))  
 print(snake_to_camel("snake_case_test"))  
 print(extract_emails("contato: dev@helper.org"))  
 print(extract_urls("Veja https://example.com"))  
+```
+
+### Hacker Style
+```python
+from pybrige import ascii_banner_hacker, matrix_rain_preview
+
+print(ascii_banner_hacker("F SOCIETY", subtitle="we are everyone"))
+print(matrix_rain_preview(lines=5, width=20))
 ```
 
 ---
@@ -178,3 +186,25 @@ print(extract_urls("Veja https://example.com"))
 - `read_json(path, safe)` / `write_json(path, data)` → helpers JSON.  
 - `append_json_line(path, record)` → escreve no formato JSON Lines.  
 - `pretty_print_json(data)` → retorna JSON formatado.  
+
+
+
+
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas!  
+Sinta-se livre para abrir **issues** ou enviar um **pull request** no GitHub.  
+
+1. Fork o repositório  
+2. Crie sua branch: `git checkout -b minha-feature`  
+3. Commit: `git commit -m "Nova feature"`  
+4. Push: `git push origin minha-feature`  
+5. Abra o PR 🚀  
+
+---
+
+## 📄 Licença
+
+Distribuído sob a licença MIT.  
+Veja [LICENSE](LICENSE) para mais detalhes.

@@ -1,6 +1,6 @@
 import pytest
 import logging
-from dev_helper import retry
+from pybrige import retry
 
 # --- Teste para 'exceptions' ---
 def test_retry_only_for_specific_exceptions(mocker):

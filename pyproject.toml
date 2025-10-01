@@ -3,32 +3,39 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pydevhelper"
-version = "0.3.1"
+name = "pybrige"
+version = "0.5.0" #  versão atual
 description = "Um toolkit de produtividade para desenvolvedores em Python"
 readme = { file = "README.md", content-type = "text/markdown" }
-authors = [{ name = "juliobrige", email = "juliobenjamimbernardo36@gmail.com" }]
+authors = [
+    { name = "Julio Benjamim Bernardo Brige", email = "juliobenjamimbernardo20@gmail.com" },
+]
 license = { text = "MIT" }
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 dependencies = [
     "rich",
 ]
 
-
 [project.urls]
-"Homepage" = "https://github.com/juliobrige/DevHelper"
-"Bug Tracker" = "https://github.com/juliobrige/DevHelper/issues"
+"Homepage" = "https://github.com/juliobrige/pybrige" # URL ATUALIZADO
+"Bug Tracker" = "https://github.com/juliobrige/pybrige/issues" # URL ATUALIZADO
 
-[tool.hatch.metadata]
-allow-direct-references = true
-
+# --- ESTA É A PARTE IMPORTANTE PARA O HATCH ---
+# Diz ao Hatch para encontrar o pacote 'pybrige' dentro da pasta 'src'
 [tool.hatch.build.targets.wheel]
-packages = ["dev_helper"]
-include = ["README.md"]
+packages = ["src/pybrige"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+minversion = "8.0"
+addopts = "-ra --strict-markers --disable-warnings --cov=pybrige --cov-report=term-missing"
 
-
-
-
-
-
+[tool.coverage.run]
+source = ["pybrige"]
+omit = [
+    "tests/*",
+    "*/__init__.py",
+    "*/logging*.py",
+    "*/migrations/*"
+]
