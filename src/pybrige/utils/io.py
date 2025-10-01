@@ -9,8 +9,8 @@ import os
 import shutil
 import tempfile
 from pathlib import Path
-from typing import Any, Callable, Iterator, List, Optional, Sequence, Union, Dict
-from typing import List
+from typing import Set, Tuple, Any, Callable, Iterator, List, Optional, Sequence, Union, Dict
+from typing import Set, Tuple, List
 
 
 
@@ -385,7 +385,7 @@ def validate_json(
 ) -> bool:
     """
     Validação leve sem dependências:
-      - schema: dict with key "required": list[str]
+      - schema: dict with key "required": List[str]
       - predicate: callable that returns bool
     """
     ok = True

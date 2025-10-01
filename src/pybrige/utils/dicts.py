@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Iterable, Mapping, MutableMapping, Callable, Union
+from typing import Set, Any, Dict, Iterable, Mapping, MutableMapping, Callable, Union
 
 
 def safe_get(d: Mapping[str, Any], key: str, default: Any = None) -> Any:
@@ -56,7 +56,7 @@ def flatten_dict(d: Mapping[str, Any], parent_key: str = "", sep: str = ".") -> 
     """
     "Achata" dicionário aninhado → chaves em formato 'a.b.c'
     """
-    items: list[tuple[str, Any]] = []
+    items: List[Tuple[str, Any]] = []
     for k, v in d.items():
         new_key = f"{parent_key}{sep}{k}" if parent_key else k
         if isinstance(v, Mapping):
