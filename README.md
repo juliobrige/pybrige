@@ -1,25 +1,24 @@
 # pybrige
 
-[![PyPI version](https://img.shields.io/pypi/v/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)  
-[![Python versions](https://img.shields.io/pypi/pyversions/pydevhelper.svg)](https://pypi.org/project/pydevhelper/)  
-[![License](https://img.shields.io/pypi/l/pydevhelper.svg)](https://github.com/juliobrige/DevHelper/blob/main/LICENSE)
-![Build](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml/badge.svg)
+[![PyPI version](https://img.shields.io/pypi/v/pybrige.svg)](https://pypi.org/project/pybrige/)
+[![Python versions](https://img.shields.io/pypi/pyversions/pybrige.svg)](https://pypi.org/project/pybrige/)
+[![License](https://img.shields.io/pypi/l/pybrige.svg)](https://github.com/juliobrige/pybrige/blob/main/LICENSE)
+[![GitHub Workflow Status](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml/badge.svg)](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml)
 [![Coverage Status](https://img.shields.io/badge/coverage-92%25-brightgreen)](https://github.com/juliobrige/pybrige)
 
+<br>
 
----
+**pt-BR**: Uma coleção de **utilitários para desenvolvedores Python** — logging elegante, medição de tempo, retry automático, manipulação de JSON, tratamento de strings e muito mais.
 
-Uma coleção de **utilitários para desenvolvedores Python** — logging elegante, medição de tempo, retry automático, manipulação de JSON, tratamento de strings e muito mais.  
-A collection of **developer utilities for Python** — elegant logging, timing, retry decorator, JSON helpers, string utilities and more.
+**en-US**: A collection of **developer utilities for Python** — elegant logging, timing, retry decorator, JSON helpers, string utilities and more.
 
 ---
 
 ## ✨ Visão Geral
 
-O **pybrige** é um toolkit de produtividade para desenvolvedores Python, projetado para acelerar tarefas comuns do dia a dia com ferramentas robustas e fáceis de usar.  
+O **pybrige** é um toolkit de produtividade para desenvolvedores Python, projetado para acelerar tarefas comuns do dia a dia com ferramentas robustas e fáceis de usar.
 
-Chega de copiar e colar o mesmo código de utilidade em todos os seus projetos!  
-Com `pybrige` você obtém soluções prontas e testadas para configuração, logging, debugging e manipulação de dados.
+Chega de copiar e colar o mesmo código de utilidade em todos os seus projetos! Com `pybrige` você obtém soluções prontas e testadas para configuração, logging, debugging e manipulação de dados.
 
 ---
 
@@ -27,7 +26,6 @@ Com `pybrige` você obtém soluções prontas e testadas para configuração, lo
 
 ```bash
 pip install pybrige
-```
 
 ---
 

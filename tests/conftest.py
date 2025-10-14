@@ -17,7 +17,7 @@ else:  # pragma: no cover - executed in local dev envs with pytest-cov
 
 _PROJECT_ROOT = Path(__file__).resolve().parent
 _SRC_PATH = _PROJECT_ROOT / "src"
-if str(_SRC_PATH) not in sys.path:
+if _SRC_PATH.exists() and str(_SRC_PATH) not in sys.path:
     sys.path.insert(0, str(_SRC_PATH))
 
 
@@ -54,6 +54,18 @@ class _SimpleMocker:
     def stopall(self) -> None:
         while self._patches:
             self._patches.pop().stop()
+
+    def spy(self, obj, attribute: str):
+        """Partially emulate :meth:`pytest_mock.plugin.MockerFixture.spy`.
+
+        The helper mirrors the behaviour of the original fixture closely
+        enough for the project's test-suite by delegating to
+        :func:`unittest.mock.patch.object` with ``wraps``.
+        """
+
+        target = getattr(obj, attribute)
+        patcher = mock.patch.object(obj, attribute, wraps=target)
+        return self._register(patcher)
 
 
 @pytest.fixture
