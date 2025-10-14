@@ -1,75 +1,116 @@
-from __future__ import annotations
-
+# --- src/pybrige/core/logging.py ---
 import logging
-from typing import Optional
-
-
+import sys
+import os
+from logging.handlers import RotatingFileHandler
 
 class ColoredFormatter(logging.Formatter):
     """
-    Custom log formatter with colors for terminal output.
-    Format changes depending on the log level.
+    Formatter que adiciona cores ao console com base no nível do log.
     """
     GREY = "\x1b[38;20m"
-    GREEN = "\x1b[32;20m"
+    BLUE = "\x1b[34;20m"
     YELLOW = "\x1b[33;20m"
     RED = "\x1b[31;20m"
     BOLD_RED = "\x1b[31;1m"
     RESET = "\x1b[0m"
 
-    BASE_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+    FORMAT = "%(asctime)s - %(levelname)-8s - %(name)s - %(message)s"
+    LOG_COLORS = {
+        logging.DEBUG: GREY,
+        logging.INFO: BLUE,
+        logging.WARNING: YELLOW,
+        logging.ERROR: RED,
+        logging.CRITICAL: BOLD_RED,
+    }
 
-    def __init__(self, datefmt: Optional[str] = "%H:%M:%S"):
-        super().__init__(datefmt=datefmt)
-        self.formatters = {
-            logging.DEBUG: logging.Formatter(self.GREY + self.BASE_FORMAT + self.RESET, datefmt),
-            logging.INFO: logging.Formatter(self.GREEN + self.BASE_FORMAT + self.RESET, datefmt),
-            logging.WARNING: logging.Formatter(self.YELLOW + self.BASE_FORMAT + self.RESET, datefmt),
-            logging.ERROR: logging.Formatter(self.RED + self.BASE_FORMAT + self.RESET, datefmt),
-            logging.CRITICAL: logging.Formatter(self.BOLD_RED + self.BASE_FORMAT + self.RESET, datefmt),
-        }
+    def __init__(self, fmt: str | None = None, datefmt: str | None = None, style: str = '%', validate: bool = True):
+        super().__init__(fmt if fmt else self.FORMAT, datefmt, style, validate)
 
-    def format(self, record: logging.LogRecord) -> str:
-        formatter = self.formatters.get(record.levelno, self.formatters[logging.INFO])
-        return formatter.format(record)
+    def format(self, record):
+        log_color = self.LOG_COLORS.get(record.levelno, self.GREY)
+        formatted_message = super().format(record)
+        return f"{log_color}{formatted_message}{self.RESET}"
+
+
+def supports_color() -> bool:
+    """
+    Verifica se o terminal suporta cores ANSI.
+    """
+    return sys.stderr.isatty() and os.name != "nt"
 
 
 def setup_logging(
-    level: int = logging.INFO, 
-    colors: bool = False, 
-    file: Optional[str] = None,
-    logger_name: Optional[str] = None
-) -> None:
+    level: int = logging.INFO,
+    colors: bool = True,
+    file: str | None = None,
+    logger_name: str | None = None,
+    force_overwrite: bool = True,
+    stream: bool | None = None,
+    datefmt: str = "%H:%M:%S",
+    fmt: str | None = None,
+    max_bytes: int = 5_000_000,  # 5 MB
+    backup_count: int = 3,
+) -> logging.Logger:
     """
-    Configure logging for your application.
+    Configura o sistema de logging do Python.
 
     Args:
-        level (int, optional): Minimum logging level. Default: logging.INFO.
-        colors (bool, optional): Enable colored logs in terminal. Default: False.
-        file (str, optional): If provided, logs will also be written to this file.
-        logger_name (str, optional): Name of the logger to configure. 
-                                     If None, root logger is used.
+        level (int): Nível de logging (ex: logging.INFO, logging.DEBUG)
+        colors (bool): Se deve usar cores no console.
+        file (str | None): Caminho para ficheiro de log (opcional).
+        logger_name (str | None): Nome do logger (None = root logger).
+        force_overwrite (bool): Remove handlers existentes antes de configurar.
+        stream (bool | None): Controla o StreamHandler (True/False/None).
+        datefmt (str): Formato da data/hora.
+        fmt (str | None): Formato customizado da mensagem.
+        max_bytes (int): Tamanho máximo do ficheiro antes de rodar.
+        backup_count (int): Quantos ficheiros antigos manter.
     """
     logger = logging.getLogger(logger_name)
     logger.setLevel(level)
 
-    # Remove existing handlers
-    for handler in list(logger.handlers):
-        logger.removeHandler(handler)
+    # Determinar se deve usar cores
+    if colors and not supports_color():
+        colors = False
 
-    # Choose formatter
-    if colors:
-        formatter = ColoredFormatter()
-    else:
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s", datefmt="%H:%M:%S")
+    # Remover handlers antigos se necessário
+    if force_overwrite:
+        for handler in list(logger.handlers):
+            logger.removeHandler(handler)
 
-    # Console handler
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatter)
-    logger.addHandler(stream_handler)
+    # Formatter base
+    format_str = fmt or "%(asctime)s - %(levelname)-8s - %(name)s - %(message)s"
+    stream_formatter = (
+        ColoredFormatter(format_str, datefmt)
+        if colors else logging.Formatter(format_str, datefmt)
+    )
+    file_formatter = logging.Formatter(format_str, datefmt)
 
-    # File handler (optional)
+    # Adicionar StreamHandler
+    add_stream_handler = (stream is True) or (stream is None and not file)
+    if add_stream_handler and not any(isinstance(h, logging.StreamHandler) for h in logger.handlers):
+        stream_handler = logging.StreamHandler(sys.stderr)
+        stream_handler.setLevel(level)
+        stream_handler.setFormatter(stream_formatter)
+        logger.addHandler(stream_handler)
+
+    # Adicionar FileHandler ou RotatingFileHandler
     if file:
-        file_handler = logging.FileHandler(file)
-        file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+        os.makedirs(os.path.dirname(file), exist_ok=True)
+        file_handler = RotatingFileHandler(
+            file, maxBytes=max_bytes, backupCount=backup_count, encoding="utf-8"
+        )
+        file_handler.setLevel(level)
+        file_handler.setFormatter(file_formatter)
         logger.addHandler(file_handler)
+
+    # Configurar propagação
+    if logger_name and not logger.handlers:
+        logger.propagate = True
+    elif not logger_name:
+        logger.propagate = False
+
+    # Log inicial
+    logger.debug(f"Logger '{logger_name or 'root'}' configurado com nível: {logging.getLevelName(level)}")
+    return logger
