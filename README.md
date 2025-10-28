@@ -1,24 +1,32 @@
-# pybrige
+from pathlib import Path
 
-[![PyPI version](https://img.shields.io/pypi/v/pybrige.svg)](https://pypi.org/project/pybrige/)
-[![Python versions](https://img.shields.io/pypi/pyversions/pybrige.svg)](https://pypi.org/project/pybrige/)
-[![License](https://img.shields.io/pypi/l/pybrige.svg)](https://github.com/juliobrige/pybrige/blob/main/LICENSE)
-[![GitHub Workflow Status](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml/badge.svg)](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml)
-[![Coverage Status](https://img.shields.io/badge/coverage-92%25-brightgreen)](https://github.com/juliobrige/pybrige)
+# Conteúdo completo do README.md
+readme_content = """# 🐍 PyBrige
 
-<br>
+[![PyPI](https://img.shields.io/pypi/v/pybrige.svg?color=blue&label=pypi)](https://pypi.org/project/pybrige/)
+[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://pypi.org/project/pybrige/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/juliobrige/pybrige/blob/main/LICENSE)
+[![Build](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml/badge.svg)](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml)
+[![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen.svg)](https://github.com/juliobrige/pybrige)
+[![Docs](https://img.shields.io/badge/docs-online-blue.svg)](https://juliobrige.github.io/pybrige/)
 
-**pt-BR**: Uma coleção de **utilitários para desenvolvedores Python** — logging elegante, medição de tempo, retry automático, manipulação de JSON, tratamento de strings e muito mais.
+---
 
-**en-US**: A collection of **developer utilities for Python** — elegant logging, timing, retry decorator, JSON helpers, string utilities and more.
+<div align="center">
+
+### 🇧🇷 Português · [🇺🇸 English](#english-version)
+
+Um **toolkit de produtividade para desenvolvedores Python**, com utilitários para logging elegante, manipulação de JSON, validação, decorators inteligentes e automação de tarefas.
+
+</div>
 
 ---
 
 ## ✨ Visão Geral
 
-O **pybrige** é um toolkit de produtividade para desenvolvedores Python, projetado para acelerar tarefas comuns do dia a dia com ferramentas robustas e fáceis de usar.
+**PyBrige** é um toolkit moderno criado para eliminar código repetitivo em projetos Python, oferecendo funções reutilizáveis para logging, configuração, análise de tempo e manipulação de dados.
 
-Chega de copiar e colar o mesmo código de utilidade em todos os seus projetos! Com `pybrige` você obtém soluções prontas e testadas para configuração, logging, debugging e manipulação de dados.
+Com `pybrige`, você ganha **velocidade**, **clareza** e **organização** no desenvolvimento — sem perder o controle.
 
 ---
 
@@ -26,6 +34,7 @@ Chega de copiar e colar o mesmo código de utilidade em todos os seus projetos! 
 
 ```bash
 pip install pybrige
+
 
 ---
 
