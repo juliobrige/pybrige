@@ -230,6 +230,14 @@ Sinta-se livre para abrir **issues** ou enviar um **pull request** no GitHub.
 
 ---
 
+🌍 Links
+
+📦 PyPI: pypi.org/project/pybrige
+
+💻 GitHub: github.com/juliobrige/pybrige
+
+📘 Documentação: juliobrige.github.io/pybrige
+
 ## 📄 Licença
 
 Distribuído sob a licença MIT.  
