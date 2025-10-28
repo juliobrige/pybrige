@@ -6,6 +6,7 @@
 [![Build](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml/badge.svg)](https://github.com/juliobrige/pybrige/actions/workflows/python-tests.yml)
 [![Coverage](https://img.shields.io/badge/coverage-92%25-brightgreen.svg)](https://github.com/juliobrige/pybrige)
 [![Docs](https://img.shields.io/badge/docs-online-blue.svg)](https://juliobrige.github.io/pybrige/)
+![Downloads](https://img.shields.io/badge/dynamic/json?url=https://pepy.tech/api/projects/pybrige&query=$.total_downloads&label=downloads&suffix=%20total)
 
 ---
 
