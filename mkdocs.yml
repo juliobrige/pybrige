@@ -89,7 +89,7 @@ plugins:
   - git-revision-date-localized:
       fallback_to_build_date: true
   - privacy
-  - minify:
+  #- minify:
   #     minify_html: true
   # - awesome-pages
   # - mkdocstrings:
