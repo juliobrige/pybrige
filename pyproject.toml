@@ -1,44 +1,124 @@
+# =========================
+#  pyproject.toml — PyBrige
+# =========================
+
+from importlib.metadata import version
+__version__ = version("pybrige")
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
 name = "pybrige"
-version = "0.5.1"
-# versão atual
+version = "0.6.0"                           # Versão da release com CLI
 description = "Um toolkit de produtividade para desenvolvedores em Python"
 readme = { file = "README.md", content-type = "text/markdown" }
-authors = [
-    { name = "Julio Benjamim Bernardo Brige", email = "juliobenjamimbernardo36@gmail.com" },
-]
-license = { text = "MIT" }
 requires-python = ">=3.8"
+license = { text = "MIT" }
+
+authors = [
+  { name = "Julio Benjamim Bernardo Brige", email = "juliobenjamimbernardo36@gmail.com" },
+]
+keywords = ["cli", "automation", "developer-tools", "productivity", "python"]
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+  "Topic :: Utilities",
+]
+
+# Dependências principais do pacote
 dependencies = [
-    "rich",
-    "python-dotenv", # Adicionei isto, pois você usa no Quick Start e testes
+  "typer[all]",           # CLI + Rich + completion
+  "rich>=13",
+  "python-dotenv>=1.0",
+]
+
+# Extras opcionais (instala com: pip install "pybrige[dev]" ou "pybrige[config]")
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "pytest-cov>=5",
+  "coverage>=7",
+  "build>=1",
+  "twine>=5",
+  "ruff>=0.5",           # lint
+  "mypy>=1.10",          # type-check
+]
+config = [
+  "pydantic>=2",         # para futura config tipada
+]
+docs = [
+  "mkdocs>=1.6",
+  "mkdocs-material>=9",
+  "mkdocs-git-revision-date-localized-plugin>=1.2",
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/juliobrige/pybrige"
 "Bug Tracker" = "https://github.com/juliobrige/pybrige/issues"
-"Documentation" = "https://github.com/juliobrige/pybrige/blob/main/README.md" # Adicionei este para apontar para o README
+"Documentation" = "https://github.com/juliobrige/pybrige#readme"
 
-# --- ESTA É A PARTE IMPORTANTE PARA O HATCH ---
-# Diz ao Hatch para encontrar o pacote 'pybrige' dentro da pasta 'src'
+# Entry point da CLI (gera o comando `pybrige` no terminal)
+[project.scripts]
+pybrige = "pybrige.cli.main:app"
+
+# ---------------------------
+# Empacotamento com Hatchling
+# ---------------------------
+
+# Diz ao Hatch para procurar o pacote "pybrige" dentro de "src"
 [tool.hatch.build.targets.wheel]
-packages = ["src/pybrige"]
+packages = [{ include = "pybrige", from = "src" }]
 
+# (Opcional) arquivos/padrões a excluir do wheel/sdist
+#[tool.hatch.build]
+#exclude = ["tests/**", ".github/**", ".vscode/**"]
+
+# ----------------
+# Configuração Test
+# ----------------
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"] # Isso é importante para o pytest encontrar seu pacote
 minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["src"]                             # garante import de pybrige nos testes
 addopts = "-ra --strict-markers --disable-warnings --cov=pybrige --cov-report=term-missing"
 
 [tool.coverage.run]
 source = ["pybrige"]
 omit = [
-    "tests/*",
-    "*/__init__.py",
-    # "*/logging*.py", # Provavelmente não precisa omitir isto, pois faz parte do seu pacote
-    # "*/migrations/*" # Provavelmente não tem esta pasta
+  "tests/*",
+  "*/__init__.py",
 ]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 0
+
+# ------------
+# Qualidade (opcional)
+# ------------
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+select = ["E", "F", "I", "UP"]
+ignore = []
+
+[tool.mypy]
+python_version = "3.8"
+strict = false
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+no_implicit_optional = true

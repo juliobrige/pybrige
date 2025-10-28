@@ -1,0 +1,120 @@
+# =========================
+#  mkdocs.yml — PyBrige Docs
+# =========================
+
+site_name: "PyBrige - Toolkit de Produtividade Python"
+site_url: "https://juliobrige.github.io/pybrige/"
+site_description: "Um toolkit de produtividade para desenvolvedores Python, focado em automação, utilitários e logging."
+site_author: "Julio Benjamim Bernardo Brige"
+copyright: "Copyright &copy; 2024 Julio Brige"
+
+# Repositório
+repo_name: "juliobrige/pybrige"
+repo_url: "https://github.com/juliobrige/pybrige"
+edit_uri: "edit/main/docs/"
+
+# Tema (Material for MkDocs)
+theme:
+  name: material
+  language: pt
+  favicon: assets/favicon.png  # opcional (coloca um favicon na pasta docs/assets/)
+  palette:
+    - scheme: default
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Trocar para tema escuro
+    - scheme: slate
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Trocar para tema claro
+  features:
+    - content.action.edit
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+# Navegação principal
+nav:
+  - Início: index.md
+  - Instalação: installation.md
+  - Guias:
+      - Primeiros Passos: guides/getting-started.md
+      - Logging: guides/logging.md
+      - CLI: guides/cli.md
+      - Configuração: guides/configuration.md
+  - API Reference: api-reference.md
+  - Roadmap: roadmap.md
+  - Contribuir: contributing.md
+
+# Extensões Markdown
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - tables
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: true
+      linenums_style: pymdownx-inline
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+# Plugins (recomendados)
+plugins:
+  - search
+  - tags
+  - git-revision-date-localized:
+      fallback_to_build_date: true
+  - privacy
+  - minify:
+  #     minify_html: true
+  # - awesome-pages
+  # - mkdocstrings:
+  #     handlers:
+  #       python:
+  #         selection:
+  #           docstring_style: numpy
+  #         options:
+  #           show_root_heading: true
+  #           show_source: true
+  #           heading_level: 2
+
+# Diretório da documentação
+docs_dir: docs
+site_dir: site
+
+# Configurações de deploy no GitHub Pages
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/juliobrige
+      name: GitHub
+    - icon: fontawesome/solid/envelope
+      link: mailto:juliobenjamimbernardo36@gmail.com
+      name: Email
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX  # opcional, substitui se tiver GA
