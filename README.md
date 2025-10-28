@@ -1,7 +1,5 @@
-from pathlib import Path
 
-# Conteúdo completo do README.md
-readme_content = """# 🐍 PyBrige
+# 🐍 PyBrige
 
 [![PyPI](https://img.shields.io/pypi/v/pybrige.svg?color=blue&label=pypi)](https://pypi.org/project/pybrige/)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://pypi.org/project/pybrige/)
