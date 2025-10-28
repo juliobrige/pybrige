@@ -11,10 +11,7 @@ from typing import Any, Callable, Iterable, Mapping, Sequence, TypeVar, Literal,
 # Extras compatíveis
 # ----------------------------
 def load_config(path: str, safe: bool = False, default: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-    """
-    Lê configuração de um arquivo JSON.
-    Se safe=True retorna {} ou `default` em caso de erro.
-    """
+
     p = Path(path)
     try:
         with p.open("r", encoding="utf-8") as f:
